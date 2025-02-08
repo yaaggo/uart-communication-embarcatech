@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = '../build/uart-communication-embarcatech.uf2'
+elf = '../build/uart-communication-embarcatech.elf'
