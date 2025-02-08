@@ -71,6 +71,10 @@ void display_update(display *display) {
     }
 }
 
+void display_clear(display *display) {
+    memset(display->buffer, 0, sizeof(display->buffer));
+}
+
 
 void display_draw_pixel (int x, int y, bool on, display *display) {
     if (x < 0 || x >= DISPLAY_WIDTH || y < 0 || y >= DISPLAY_HEIGHT) return; 

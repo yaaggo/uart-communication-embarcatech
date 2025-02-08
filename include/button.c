@@ -23,7 +23,6 @@ void gpio_irq_callback(uint gpio, uint32_t events) {
             last_a_interrupt_time = current_time;
 
             if (events & GPIO_IRQ_EDGE_FALL) {
-                counter++;
             }
         }
     } else if (gpio == BUTTON_B_PIN) {
@@ -31,17 +30,10 @@ void gpio_irq_callback(uint gpio, uint32_t events) {
             last_b_interrupt_time = current_time;
 
             if (events & GPIO_IRQ_EDGE_FALL) {
-                counter--;
             }
         }
     }
 
-    counter = (counter < 0) ? 9 : (counter > 9 ? 0 : counter);
-    
-    if(counter != prev_counter) {
-        matrix_number(counter, COLOR_RGB(1, 1, 1));
-    }
-    prev_counter = counter;
 }
 
 // inicializa o botão e configura interrupções

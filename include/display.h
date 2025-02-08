@@ -23,6 +23,7 @@ typedef struct {
 
 void display_init(display *display);
 void display_update(display *display);
+void display_clear(display *display);
 void display_draw_pixel(int x, int y, bool on, display *display);
 void display_draw_line(int x0, int y0, int x1, int y1, bool on, display *display);
 void display_draw_char(int x, int y, char c, bool on, display *display);
