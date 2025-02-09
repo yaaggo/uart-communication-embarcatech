@@ -49,11 +49,14 @@ int main() {
     led_init(LED_GREEN_PIN);
 
     while (true) {
+        // coleta de dados
         int key_pressed = getchar_timeout_us(0);
         
+        // caso algum caracter for pressionado e for diferente do passado, entrar
         if (key_pressed != PICO_ERROR_TIMEOUT && key_pressed != previous_key) {
-            DEBUG(key_pressed);
+            DEBUG(key_pressed); // ver qual tecla esta sendo pressionada
 
+            // se for um número, vai exibir na matriz de leds
             if (key_pressed >= '0' && key_pressed <= '9') {
                 printf("matrix de leds ligada com o numero: %c\n", key_pressed);
                 matrix_number(key_pressed - '0', COLOR_RGB(50, 0, 0));
@@ -62,12 +65,14 @@ int main() {
                 matrix_clear();
                 matrix_update();
             }
-
+            // apaga o caracter anterior
             display_draw_char(128/2 - 4, 8, previous_key, false, &dp);
+            // escreve o caracter novo
             display_draw_char(128/2 - 4, 8, key_pressed, true, &dp);
+
             previous_key = key_pressed;
         }
-
+        // verificando se houve alteração na cor do led azul
         if (led_blue_state != previous_led_blue) {
             if(!first) {
                 printf("Estado do do LED azul alterado de %s para %s\n", 
@@ -76,11 +81,12 @@ int main() {
                 );
 
             }
+            // atualizando se atualmente o led esta ligado ou desligado
             display_draw_string(96, 32, previous_led_blue ? "ON " : "OFF", false, &dp);
             display_draw_string(96, 32, led_blue_state ? "ON " : "OFF", true, &dp);
             previous_led_blue = led_blue_state;
         }
-
+        // verificando se houve alteração na cor do led verde
         if (led_green_state != previous_led_green) {
 
             if(!first) {
@@ -97,6 +103,7 @@ int main() {
         display_draw_string(8, 32, "LED Azul: ", true, &dp);
         display_draw_string(8, 48, "LED Verde: ", true, &dp);
 
+        // coloca os dados no hardware do display
         display_update(&dp);
         first = 0;
 
@@ -109,7 +116,7 @@ void gpio_irq_callback(uint gpio, uint32_t events) {
     uint32_t current_time = to_ms_since_boot(get_absolute_time());
 
     // verifica qual botão acionou a interrupção e trata o debounce
-    if (gpio == BUTTON_A_PIN) {
+    if (gpio == BUTTON_A_PIN) { // botão do led verde
         if (current_time - last_a_interrupt_time > DEBOUNCE_DELAY) {
             last_a_interrupt_time = current_time;
 
@@ -117,7 +124,7 @@ void gpio_irq_callback(uint gpio, uint32_t events) {
                 led_state(LED_GREEN_PIN, led_green_state = !led_green_state);
             }
         }
-    } else if (gpio == BUTTON_B_PIN) {
+    } else if (gpio == BUTTON_B_PIN) { // botao do led azul
         if (current_time - last_b_interrupt_time > DEBOUNCE_DELAY) {
             last_b_interrupt_time = current_time;
 
@@ -125,7 +132,7 @@ void gpio_irq_callback(uint gpio, uint32_t events) {
                 led_state(LED_BLUE_PIN, led_blue_state = !led_blue_state);
             }
         }
-    } else if (gpio == BUTTON_JOYSTICK_PIN) {
+    } else if (gpio == BUTTON_JOYSTICK_PIN) { // botao extra para entrar em modo bootsel
         if (current_time - last_joystick_interrupt_time > DEBOUNCE_DELAY) {
             last_joystick_interrupt_time = current_time;
 

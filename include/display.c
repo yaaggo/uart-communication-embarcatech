@@ -20,7 +20,7 @@ static void ssd1306_send_command(uint8_t command) {
     uint8_t data[] = {0x00, command};
     i2c_write_blocking(I2C_PORT, 0x3C, data, sizeof(data), false);
 }
-
+// inicializa tudo do display
 void display_init(display *display) {
     if (display->initialized) return;
 
@@ -56,7 +56,7 @@ void display_init(display *display) {
     display->initialized = true;
 }
 
-
+// coloca dados do buffer no display
 void display_update(display *display) {
     for (uint8_t page = 0; page < 8; page++) {
         ssd1306_send_command(0xB0 + page);
@@ -71,11 +71,12 @@ void display_update(display *display) {
     }
 }
 
+// limpa o buffer do display
 void display_clear(display *display) {
     memset(display->buffer, 0, sizeof(display->buffer));
 }
 
-
+// desenha ou apaga um pixel no display
 void display_draw_pixel (int x, int y, bool on, display *display) {
     if (x < 0 || x >= DISPLAY_WIDTH || y < 0 || y >= DISPLAY_HEIGHT) return; 
     if (on)
@@ -99,6 +100,7 @@ void display_draw_line(int x0, int y0, int x1, int y1, bool on, display *display
     }
 }
 
+// escreve um caracter no buffer do display
 void display_draw_char(int x, int y, char c, bool on, display *display) {
     if (c < 0x20 || c > 0x7F) return;
 
@@ -115,6 +117,7 @@ void display_draw_char(int x, int y, char c, bool on, display *display) {
     }
 }
 
+// escreve uma string no buffer do display
 void display_draw_string(int x, int y, const char *str, bool on, display *display) {
     while (*str) {
         if (x + 8 > 128) break;
@@ -125,6 +128,7 @@ void display_draw_string(int x, int y, const char *str, bool on, display *displa
     }
 }
 
+// apaga e desliga o display
 void display_shutdown(display *display) {
 
     display_clear(display);
