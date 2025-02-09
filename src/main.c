@@ -55,6 +55,7 @@ int main() {
             DEBUG(key_pressed);
 
             if (key_pressed >= '0' && key_pressed <= '9') {
+                printf("matrix de leds ligada com o numero: %c\n", key_pressed);
                 matrix_number(key_pressed - '0', COLOR_RGB(50, 0, 0));
                 matrix_update();
             } else {
@@ -75,7 +76,6 @@ int main() {
                 );
 
             }
-
             display_draw_string(96, 32, previous_led_blue ? "ON " : "OFF", false, &dp);
             display_draw_string(96, 32, led_blue_state ? "ON " : "OFF", true, &dp);
             previous_led_blue = led_blue_state;
@@ -89,8 +89,6 @@ int main() {
                     led_green_state ? "ON" : "OFF"
                 );
             }
-
-
             display_draw_string(96, 48, previous_led_green ? "ON " : "OFF", false, &dp);
             display_draw_string(96, 48, led_green_state ? "ON " : "OFF", true, &dp);
             previous_led_green = led_green_state;
@@ -134,12 +132,10 @@ void gpio_irq_callback(uint gpio, uint32_t events) {
             if (events & GPIO_IRQ_EDGE_FALL) {   
                 matrix_clear();
                 display_shutdown(&dp);
-                
                 reset_usb_boot(0, 0);
             }
         }
     }
-
 }
 
 // inicializa o botão e configura interrupções
