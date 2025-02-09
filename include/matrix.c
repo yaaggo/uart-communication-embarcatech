@@ -113,7 +113,7 @@ void matrix_update() {
         uint32_t color = COLOR_HEX(leds[i].r, leds[i].g, leds[i].b);
         pio_sm_put_blocking(np_pio, sm, color);
     }
-    sleep_us(100);
+    // sleep_us(200);
 }
 
 void matrix_letter(char letter, rgb_led color) {
