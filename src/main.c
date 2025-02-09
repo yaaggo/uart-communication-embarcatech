@@ -59,7 +59,7 @@ int main() {
             // se for um número, vai exibir na matriz de leds
             if (key_pressed >= '0' && key_pressed <= '9') {
                 printf("matrix de leds ligada com o numero: %c\n", key_pressed);
-                matrix_number(key_pressed - '0', COLOR_RGB(0, 1, 1));
+                matrix_number(key_pressed - '0', COLOR_RGB(0, 100, 100));
                 matrix_update();
             } else {
                 matrix_clear();
