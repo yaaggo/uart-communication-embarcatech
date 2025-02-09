@@ -83,4 +83,5 @@ individual prática.
    - Ao pressionar o botão B, o LED azul irá trocar o seu estado.
    - Ao pressionar o botão do joystick, a placa irá entrar em modo bootsel
 ---
-
+## Video demonstrativo
+  Link do video com uma explicação curta e demonstrando as features na placa: https://www.youtube.com/watch?v=bs6Rd3-Bzqw
