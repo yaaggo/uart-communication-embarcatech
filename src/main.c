@@ -1,12 +1,14 @@
 #include <stdio.h>
 
 #include "pico/stdlib.h"
+#include "pico/bootrom.h"
 #include "include/display.h"
 #include "include/matrix.h"
 #include "include/led.h"
 
 #define BUTTON_A_PIN 5
 #define BUTTON_B_PIN 6
+#define BUTTON_JOYSTICK_PIN 22
 #define DEBOUNCE_DELAY 200
 
 #define DEBUG(var) printf("%s: %c\n", #var, var)
@@ -15,6 +17,7 @@ display dp;
 
 static volatile uint32_t last_a_interrupt_time = 0;
 static volatile uint32_t last_b_interrupt_time = 0;
+static volatile uint32_t last_joystick_interrupt_time = 0;
 
 volatile bool led_green_state = 0;
 volatile bool led_blue_state = 0;
@@ -39,6 +42,7 @@ int main() {
     // inicializando botoes
     button_init(BUTTON_A_PIN);
     button_init(BUTTON_B_PIN);
+    button_init(BUTTON_JOYSTICK_PIN);
 
     // inicializando leds
     led_init(LED_BLUE_PIN);
@@ -121,6 +125,17 @@ void gpio_irq_callback(uint gpio, uint32_t events) {
 
             if (events & GPIO_IRQ_EDGE_FALL) {   
                 led_state(LED_BLUE_PIN, led_blue_state = !led_blue_state);
+            }
+        }
+    } else if (gpio == BUTTON_JOYSTICK_PIN) {
+        if (current_time - last_joystick_interrupt_time > DEBOUNCE_DELAY) {
+            last_joystick_interrupt_time = current_time;
+
+            if (events & GPIO_IRQ_EDGE_FALL) {   
+                matrix_clear();
+                display_shutdown(&dp);
+                
+                reset_usb_boot(0, 0);
             }
         }
     }

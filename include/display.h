@@ -28,5 +28,6 @@ void display_draw_pixel(int x, int y, bool on, display *display);
 void display_draw_line(int x0, int y0, int x1, int y1, bool on, display *display);
 void display_draw_char(int x, int y, char c, bool on, display *display);
 void display_draw_string(int x, int y, const char *str, bool on, display *display);
+void display_shutdown(display *display);
 
 #endif

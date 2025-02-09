@@ -124,3 +124,21 @@ void display_draw_string(int x, int y, const char *str, bool on, display *displa
         str++;
     }
 }
+
+void display_shutdown(display *display) {
+
+    display_clear(display);
+    display_update(display);
+
+    ssd1306_send_command(0xAE); // display OFF
+
+    ssd1306_send_command(0x8D); // charge Pump
+    ssd1306_send_command(0x10); // desativa
+
+    i2c_deinit(I2C_PORT);
+    gpio_set_function(SDA_PIN, GPIO_FUNC_NULL);
+    gpio_set_function(SCL_PIN, GPIO_FUNC_NULL);
+
+    display->initialized = false;
+}
+
