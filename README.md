@@ -23,6 +23,7 @@ individual prática.
 - Botão A conectado à GPIO 5.
 - Botão B conectado à GPIO 6.
 - Display SSD1306 conectado via I2C (GPIO 14 e GPIO15).
+- Botão do joystick conectado à GPIO 22.
 
 ---
 
