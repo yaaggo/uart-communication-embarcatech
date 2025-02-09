@@ -65,7 +65,7 @@ individual prática.
      git clone https://github.com/yaaggo/one-shot-timer-embarcatech.git
      ```
    - Compile utilizando as ferramentas do SDK do Pico.
-   - (opcional) Se estiver utilizando a exntensão do Raspberry Pi Pico SDK no vscode, importe o projeto e compile pela extensão
+   - (opcional) Se estiver utilizando a extensão do Raspberry Pi Pico SDK no vscode, importe o projeto e compile pela extensão
 
 4) **Fazer upload para a placa**:
    - Conecte a Raspberry Pi Pico via USB.
