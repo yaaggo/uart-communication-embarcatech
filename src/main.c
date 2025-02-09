@@ -28,6 +28,7 @@ int main() {
     char previous_key = -1;
     bool previous_led_blue = -1;
     bool previous_led_green = -1;
+    bool first = 1;
 
     // inicializando o display
     display_init(&dp);
@@ -63,12 +64,29 @@ int main() {
         }
 
         if (led_blue_state != previous_led_blue) {
+            if(!first) {
+                printf("Estado do do LED azul alterado de %s para %s\n", 
+                    led_blue_state ? "OFF" : "ON",
+                    led_blue_state ? "ON" : "OFF"
+                );
+
+            }
+
             display_draw_string(96, 32, previous_led_blue ? "ON " : "OFF", false, &dp);
             display_draw_string(96, 32, led_blue_state ? "ON " : "OFF", true, &dp);
             previous_led_blue = led_blue_state;
         }
 
         if (led_green_state != previous_led_green) {
+
+            if(!first) {
+                printf("Estado do do LED verde alterado de %s para %s\n", 
+                    led_green_state ? "OFF" : "ON",
+                    led_green_state ? "ON" : "OFF"
+                );
+            }
+
+
             display_draw_string(96, 48, previous_led_green ? "ON " : "OFF", false, &dp);
             display_draw_string(96, 48, led_green_state ? "ON " : "OFF", true, &dp);
             previous_led_green = led_green_state;
@@ -78,6 +96,7 @@ int main() {
         display_draw_string(8, 48, "LED Verde: ", true, &dp);
 
         display_update(&dp);
+        first = 0;
 
         sleep_ms(50); 
     }
